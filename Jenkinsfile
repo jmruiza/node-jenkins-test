@@ -1,26 +1,15 @@
 pipeline {
-    agent any
-    
-    tools {nodejs "nodejs"}
-    
+    agent {
+        docker {
+            image 'node:6-alpine' 
+            args '-p 3000:3000' 
+        }
+    }
     stages {
-    
-        stage('Cloning Git') {
+        stage('Build') { 
             steps {
-                git 'https://github.com/jmruiza/node-jenkins-test'
+                sh 'npm install' 
             }
         }
-    
-        stage('Install dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-    
-        stage('Test') {
-            steps {
-                sh 'npm test'
-            }
-        } 
     }
 }
